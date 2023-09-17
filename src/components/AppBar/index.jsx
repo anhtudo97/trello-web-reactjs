@@ -20,13 +20,13 @@ function AppBar() {
   return (
     <Box
       px={2}
-      sx={{
-        width: '100%',
-        height: (theme) => theme.trello.appBarHeight,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+      height={(theme) => theme.trello.appBarHeight}
+      gap={2}
+      sx={{overflowX: 'auto'}}
     >
       <Box
         sx={{
@@ -46,6 +46,7 @@ function AppBar() {
           <SvgIcon
             component={TrelloIcon}
             inheritViewBox
+            fontSize="small"
             sx={{ color: 'primary.mian' }}
           />
           <Typography
@@ -59,12 +60,19 @@ function AppBar() {
             Trello
           </Typography>
         </Box>
-
-        <Workspaces />
-        <Recent />
-        <Starred />
-        <Templates />
-        <Button variant="outlined">Create</Button>
+        <Box
+          display={{
+            xs: 'none',
+            md: 'flex',
+          }}
+          gap={1}
+        >
+          <Workspaces />
+          <Recent />
+          <Starred />
+          <Templates />
+          <Button variant="outlined">Create</Button>
+        </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <TextField
@@ -73,15 +81,16 @@ function AppBar() {
           type="search"
           size="small"
           variant="outlined"
+          sx={{ minWidth: 120 }}
         />
         <ModeSelect />
-        <Tooltip title="Notification">
-          <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneIcon />
+        <Tooltip title="Notifications">
+          <Badge color="primary" variant="dot" sx={{ cursor: 'pointer' }}>
+            <NotificationsNoneIcon color="primary" />
           </Badge>
         </Tooltip>
         <Tooltip title="Help">
-          <HelpOutlineIcon sx={{ cursor: 'pointer' }} />
+          <HelpOutlineIcon sx={{ cursor: 'pointer' }} color="primary" />
         </Tooltip>
         <Profile />
       </Box>
