@@ -7,20 +7,20 @@ const theme = extendTheme({
     boardBarHeight: '58px'
   },
   colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: '#ff5252'
-        }
-      }
-    },
-    dark: {
-      palette: {
-        primary: {
-          main: '#000'
-        }
-      }
-    }
+    // light: {
+    //   palette: {
+    //     primary: {
+    //       main: '#ff5252'
+    //     }
+    //   }
+    // },
+    // dark: {
+    //   palette: {
+    //     primary: {
+    //       main: '#000'
+    //     }
+    //   }
+    // }
   }
 })
 
