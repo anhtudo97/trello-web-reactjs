@@ -15,31 +15,22 @@ import Recent from './Menus/Recent';
 import Starred from './Menus/Starred';
 import Templates from './Menus/Templates';
 import Profile from './Menus/Profile';
+import { BOX_WRAPPER } from '~/utils/constant';
 
 function AppBar() {
   return (
     <Box
       px={2}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
       width="100%"
       height={(theme) => theme.trello.appBarHeight}
-      gap={2}
-      sx={{overflowX: 'auto'}}
+      justifyContent="space-between"
+      sx={{ ...BOX_WRAPPER, overflowX: 'auto' }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 2,
-        }}
-      >
+      <Box sx={{ ...BOX_WRAPPER }}>
         <AppsIcon sx={{ color: 'primary.mian' }} />
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
+            ...BOX_WRAPPER,
             gap: 0.5,
           }}
         >
@@ -74,7 +65,7 @@ function AppBar() {
           <Button variant="outlined">Create</Button>
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Box sx={{ ...BOX_WRAPPER }}>
         <TextField
           id="filled-search"
           label="Search..."

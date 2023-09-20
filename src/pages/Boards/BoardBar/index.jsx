@@ -12,6 +12,8 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 
+import { BOX_WRAPPER } from '~/utils/constant';
+
 const MENU_STYLES = {
   bgcolor: 'white',
   border: 'none',
@@ -30,13 +32,11 @@ function BoardBar() {
     <Box
       borderTop="1px solid #00bfa5"
       height={(theme) => theme.trello.boardBarHeight}
-      display="flex"
-      alignItems="center"
       justifyContent="space-between"
       width="100%"
-      gap={2}
       px={2}
       sx={{
+        ...BOX_WRAPPER,
         overflowX: 'auto',
       }}
     >
@@ -72,7 +72,7 @@ function BoardBar() {
           onClick={() => {}}
         />
       </Box>
-      <Box display="flex" alignItems="center" gap={2}>
+      <Box sx={{ ...BOX_WRAPPER }}>
         <Button variant="outlined" startIcon={<PersonAddIcon />}>
           Invite
         </Button>
