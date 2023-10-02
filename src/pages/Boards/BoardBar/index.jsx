@@ -15,12 +15,13 @@ import Button from '@mui/material/Button';
 import { BOX_WRAPPER } from '~/utils/constant';
 
 const MENU_STYLES = {
-  bgcolor: 'white',
+  color: 'white',
+  bgcolor: 'transparent',
   border: 'none',
   borderRadius: '4px',
   px: '5px',
-  '& .MuiSvgIcon-root': {
-    color: 'primary.main',
+  '.MuiSvgIcon-root': {
+    color: 'white',
   },
   '&:hover': {
     bgcolor: 'primary.50',
@@ -30,7 +31,7 @@ const MENU_STYLES = {
 function BoardBar() {
   return (
     <Box
-      borderTop="1px solid #00bfa5"
+      borderBottom="1px solid #00bfa5"
       height={(theme) => theme.trello.boardBarHeight}
       justifyContent="space-between"
       width="100%"
@@ -38,51 +39,65 @@ function BoardBar() {
       sx={{
         ...BOX_WRAPPER,
         overflowX: 'auto',
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? '#34495e' : '#1976d2',
       }}
     >
       <Box display="flex" alignItems="center" gap={2}>
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<DashboardIcon />}
           label="Dashboard"
           onClick={() => {}}
         />
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<VpnLockIcon />}
           label="Public/Private Workspace"
           onClick={() => {}}
         />
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add to Drive"
           onClick={() => {}}
         />
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<BoltIcon />}
           label="Automation"
           onClick={() => {}}
         />
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<FilterListIcon />}
           label="Filters"
           onClick={() => {}}
         />
       </Box>
-      <Box sx={{ ...BOX_WRAPPER }}>
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+      <Box sx={BOX_WRAPPER}>
+        <Button
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': {
+              borderColor: 'white',
+            },
+          }}
+        >
           Invite
         </Button>
         <AvatarGroup
           max={7}
           sx={{
+            gap: '10px',
             '& .MuiAvatar-root': {
               width: 34,
               height: 34,
               fontSize: 16,
+              border: 'none'
             },
           }}
         >
