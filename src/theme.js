@@ -31,6 +31,10 @@ const theme = extendTheme({
         root: {
           // Some CSS
           textTransform: 'none',
+          borderWidth: '0.5px',
+          '&:hover': {
+            borderWidth: '0.5px',
+          },
         },
       },
     },
@@ -38,7 +42,7 @@ const theme = extendTheme({
       styleOverrides: {
         // Name of the slot
         root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+          // color: theme.palette.primary.main,
           fontSize: '0.875rem',
         }),
       },
@@ -46,19 +50,25 @@ const theme = extendTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+          // color: theme.palette.primary.main,
           fontSize: '0.875rem',
-          '.MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.light,
+          // '.MuiOutlinedInput-notchedOutline': {
+          //   borderColor: theme.palette.primary.light,
+          // },
+          // '&:hover': {
+          //   '.MuiOutlinedInput-notchedOutline': {
+          //     borderColor: theme.palette.primary.main,
+          //   },
+          // },
+          '& fieldset': {
+            borderWidth: '0.5px !important',
           },
-          '&:hover': {
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.main,
-            },
+          '&:hover fieldset': {
+            borderWidth: '2px !important',
           },
-          // '& fieldset': {
-          //   borderWidth: '1px !important'
-          // }
+          '&.Mui-focused fieldset': {
+            borderWidth: '2px !important',
+          },
         }),
       },
     },
@@ -70,11 +80,11 @@ const theme = extendTheme({
             height: '8px',
           },
           '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#bdc3c7',
-            borderRadius: '8px'
+            backgroundColor: '#dcdde1',
+            borderRadius: '8px',
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#00b89',
+            backgroundColor: 'white',
           },
         },
       },
