@@ -31,7 +31,6 @@ const MENU_STYLES = {
 function BoardBar() {
   return (
     <Box
-      borderBottom="1px solid #00bfa5"
       height={(theme) => theme.trello.boardBarHeight}
       justifyContent="space-between"
       width="100%"

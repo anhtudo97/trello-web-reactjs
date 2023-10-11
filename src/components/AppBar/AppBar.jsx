@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import ModeSelect from '~/components/ModeSelect';
+import ModeSelect from '~/components/ModeSelect/MaodeSelect';
 import AppsIcon from '@mui/icons-material/Apps';
 import TextField from '@mui/material/TextField';
 import SvgIcon from '@mui/material/SvgIcon';
