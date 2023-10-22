@@ -1,7 +1,13 @@
 import Box from '@mui/material/Box';
 import ListColumns from './ListColumns/ListColumns';
+import { mapOrder } from '~/utils/sorts';
+import { useMemo } from 'react';
 
-function BoardContent() {
+function BoardContent({ board }) {
+  const orderedColumns = useMemo(
+    () => mapOrder(board?.columns, board?.columnOrderIds, '_id'),
+    [],
+  );
   return (
     <Box
       sx={{
@@ -13,7 +19,7 @@ function BoardContent() {
         p: '10px 0',
       }}
     >
-      <ListColumns />
+      <ListColumns columns={orderedColumns} />
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -19,8 +19,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import ListCards from './ListCards/ListCards';
+import { mapOrder } from '~/utils/sorts';
 
-function Column() {
+function Column({ column }) {
+  const orderedCards = useMemo(
+    () => mapOrder(column?.cards, column?.cardOrderIds, '_id'),
+    [],
+  );
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -61,7 +66,7 @@ function Column() {
             fontSize: '1rem',
           }}
         >
-          Column title
+          {column?.title}
         </Typography>
         <Box>
           <Tooltip title="More options">
@@ -128,7 +133,7 @@ function Column() {
       </Box>
 
       {/* Box column body*/}
-      <ListCards />
+      <ListCards cards={orderedCards} />
 
       {/* Box column footer*/}
       <Box

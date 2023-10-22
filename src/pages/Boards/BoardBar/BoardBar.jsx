@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 
 import { BOX_WRAPPER } from '~/utils/constant';
+import { capitalizeFirstLetter } from '~/utils/formatters';
 
 const MENU_STYLES = {
   color: 'white',
@@ -28,7 +29,7 @@ const MENU_STYLES = {
   },
 };
 
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box
       height={(theme) => theme.trello.boardBarHeight}
@@ -46,13 +47,13 @@ function BoardBar() {
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
-          label="Dashboard"
+          label={board.title}
           onClick={() => {}}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
-          label="Public/Private Workspace"
+          label={capitalizeFirstLetter(board?.type)}
           onClick={() => {}}
         />
         <Chip
