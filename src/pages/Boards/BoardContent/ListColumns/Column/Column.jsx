@@ -21,6 +21,9 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import ListCards from './ListCards/ListCards';
 import { mapOrder } from '~/utils/sorts';
 
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
 function Column({ column }) {
   const orderedCards = useMemo(
     () => mapOrder(column?.cards, column?.cardOrderIds, '_id'),
@@ -34,8 +37,27 @@ function Column({ column }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: column._id, data: { ...column } });
+
+  const dndKitColumnStyles = {
+    // touchAction: 'none', // Dành cho các sensor dạng PointerSensor
+    /*
+      Issue happened when using Transform
+      https://github.com/clauderic/dnd-kit/issues/117
+    */
+
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
   return (
     <Box
+      ref={setNodeRef}
+      style={dndKitColumnStyles}
+      {...attributes}
+      {...listeners}
       sx={{
         minWidth: '300px',
         maxWidth: '300px',
