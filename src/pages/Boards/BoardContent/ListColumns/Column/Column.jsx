@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -19,8 +19,16 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import ListCards from './ListCards/ListCards';
+import { mapOrder } from '~/utils/sorts';
 
-function Column() {
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+function Column({ column }) {
+  const orderedCards = useMemo(
+    () => mapOrder(column?.cards, column?.cardOrderIds, '_id'),
+    [],
+  );
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -29,8 +37,27 @@ function Column() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: column._id, data: { ...column } });
+
+  const dndKitColumnStyles = {
+    // touchAction: 'none', // Dành cho các sensor dạng PointerSensor
+    /*
+      Issue happened when using Transform
+      https://github.com/clauderic/dnd-kit/issues/117
+    */
+
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
   return (
     <Box
+      ref={setNodeRef}
+      style={dndKitColumnStyles}
+      {...attributes}
+      {...listeners}
       sx={{
         minWidth: '300px',
         maxWidth: '300px',
@@ -61,7 +88,7 @@ function Column() {
             fontSize: '1rem',
           }}
         >
-          Column title
+          {column?.title}
         </Typography>
         <Box>
           <Tooltip title="More options">
@@ -128,7 +155,7 @@ function Column() {
       </Box>
 
       {/* Box column body*/}
-      <ListCards />
+      <ListCards cards={orderedCards} />
 
       {/* Box column footer*/}
       <Box

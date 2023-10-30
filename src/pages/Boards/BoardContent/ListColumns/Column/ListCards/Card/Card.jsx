@@ -8,23 +8,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Attachment from '@mui/icons-material/Attachment';
 import Group from '@mui/icons-material/Group';
 import ModeComment from '@mui/icons-material/ModeComment';
+import { useMemo } from 'react';
 
-function Card({ temporaryHideMedia }) {
-  if (temporaryHideMedia) {
+function Card({ card }) {
+  const shouldShowCardActions = useMemo(() => {
     return (
-      <MuiCard
-        sx={{
-          cursor: 'pointer',
-          boxShadow: '0 1px 1px rgba(0,0,0,0.2)',
-          overflow: 'unset',
-        }}
-      >
-        <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-          <Typography>Lizard test 21</Typography>
-        </CardContent>
-      </MuiCard>
+      card?.memberIds?.length ||
+      card?.comment?.length ||
+      card?.attachments?.length
     );
-  }
+  }, []);
   return (
     <MuiCard
       sx={{
@@ -33,25 +26,31 @@ function Card({ temporaryHideMedia }) {
         overflow: 'unset',
       }}
     >
-      <CardMedia
-        sx={{ height: 140 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
-      />
+      {card?.cover ? (
+        <CardMedia sx={{ height: 140 }} image={card.cover} title={card.title} />
+      ) : null}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-        <Typography>Lizard</Typography>
+        <Typography>{card?.title}</Typography>
       </CardContent>
-      <CardActions sx={{ p: '0 4px 8px 4px' }}>
-        <Button size="small" startIcon={<Group />}>
-          20
-        </Button>
-        <Button size="small" startIcon={<ModeComment />}>
-          55
-        </Button>
-        <Button size="small" startIcon={<Attachment />}>
-          7
-        </Button>
-      </CardActions>
+      {shouldShowCardActions ? (
+        <CardActions sx={{ p: '0 4px 8px 4px' }}>
+          {card?.memberIds?.length ? (
+            <Button size="small" startIcon={<Group />}>
+              {card?.memberIds?.length}
+            </Button>
+          ) : null}
+          {card?.comment?.length ? (
+            <Button size="small" startIcon={<ModeComment />}>
+              {card?.comment?.length}
+            </Button>
+          ) : null}
+          {card?.attachments?.length ? (
+            <Button size="small" startIcon={<Attachment />}>
+              {card?.attachments?.length}
+            </Button>
+          ) : null}
+        </CardActions>
+      ) : null}
     </MuiCard>
   );
 }
