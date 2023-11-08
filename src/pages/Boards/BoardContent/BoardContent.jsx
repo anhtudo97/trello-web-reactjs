@@ -4,13 +4,22 @@ import { mapOrder } from '~/utils/sorts';
 import { useEffect, useState } from 'react';
 import {
   DndContext,
+  DragOverlay,
   MouseSensor,
   PointerSensor,
   TouchSensor,
+  defaultDropAnimationSideEffects,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
+import Column from './ListColumns/Column/Column';
+import Card from './ListColumns/Column/ListCards/Card/Card';
+
+const ACTIVE_DRAG_ITEM_TYPE = {
+  COLUMN: 'ACTIVE_DRAG_ITEM_TYPE__COLUMN',
+  CARD: 'ACTIVE_DRAG_ITEM_TYPE__CARD',
+};
 
 function BoardContent({ board }) {
   // Điều kiện kích hoạt event drag and drop là pointer của chuột phải di chuyển ít nhất 10px
@@ -33,18 +42,36 @@ function BoardContent({ board }) {
     },
   });
 
-  const sensors = useSensors(pointerSensor);
-  // const sensors = useSensors(mouseSensor, touchSensor);
+  // const sensors = useSensors(pointerSensor);
+  const sensors = useSensors(mouseSensor, touchSensor);
 
   const [orderedColumns, setOrderedColumns] = useState([]);
+
+  // Cùng 1 thời điểm chỉ có 1 phần tử được kéo column or card
+  const [activeDragItemId, setActiveDragItemId] = useState(null);
+  const [activeDragItemType, setActiveDragItemType] = useState(null);
+  const [activeDragItemData, setActiveDragItemData] = useState(null);
 
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'));
   }, [board]);
 
-  const handleDragEnd = (event) => {
-    console.log(`Handle drag end ${event}`);
+  const handlDragStart = (event) => {
     const { active, over } = event;
+    console.log('Handle drag start from', event);
+
+    setActiveDragItemId(active?.id);
+    setActiveDragItemType(
+      active?.data?.column?.columnId
+        ? ACTIVE_DRAG_ITEM_TYPE.CARD
+        : ACTIVE_DRAG_ITEM_TYPE.COLUMN,
+    );
+    setActiveDragItemData(active?.data?.current);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    console.log('Handle drag end from', event);
 
     // Nếu không có điểm drop sẽ huỷ lệnh drag
     if (!over) return;
@@ -64,10 +91,28 @@ function BoardContent({ board }) {
 
       setOrderedColumns(dndOrderedColumns);
     }
+
+    setActiveDragItemId(null);
+    setActiveDragItemType(null);
+    setActiveDragItemData(null);
+  };
+
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5',
+        },
+      },
+    }),
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+      onDragStart={handlDragStart}
+    >
       <Box
         sx={{
           width: '100%',
@@ -79,6 +124,15 @@ function BoardContent({ board }) {
         }}
       >
         <ListColumns columns={orderedColumns} />
+        <DragOverlay dropAnimation={dropAnimation}>
+          {!activeDragItemType && null}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
+            <Column column={activeDragItemData} />
+          )}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
+            <Card card={activeDragItemData} />
+          )}
+        </DragOverlay>
       </Box>
     </DndContext>
   );
